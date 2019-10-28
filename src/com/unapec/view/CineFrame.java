@@ -353,7 +353,8 @@ public class CineFrame extends javax.swing.JFrame {
                 em.persist(sala);
                 em.getTransaction().commit();
                 JOptionPane.showMessageDialog(null, "El registro fue agregado correctamente! ", "Atencion", JOptionPane.WARNING_MESSAGE);
-                txtNombreCine.setText("");
+                jTextSala.setText("");
+                jComboCines.setSelectedItem("");
                 flagBusqueda = false;
                 loadTableSalas();
             }catch(RollbackException ex){
@@ -439,7 +440,7 @@ public class CineFrame extends javax.swing.JFrame {
             txtNombreCine.setText(cine.getNombre());
             flagBusqueda = true;
         }else{
-            JOptionPane.showMessageDialog(null, "No se encontró el código "+txtNombreCine.getText(), "Atencion", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se encontró "+txtNombreCine.getText(), "Atencion", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarCineActionPerformed
 
@@ -466,7 +467,7 @@ public class CineFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Ha ocurrido un error.", "Atencion", JOptionPane.ERROR_MESSAGE);
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Debe introducir un código.", "Atencion", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe introducir un elemento para que sea agregado", "Atencion", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarCineActionPerformed
 
@@ -491,7 +492,7 @@ public class CineFrame extends javax.swing.JFrame {
                         sala.getIdcine().getIdcine())).collect(Collectors.toList()).get(0).getNombre());
             flagBusqueda = true;
         }else{
-            JOptionPane.showMessageDialog(null, "No se encontró el código "+txtNombreCine.getText(), "Atencion", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se encontró el "+txtNombreCine.getText(), "Atencion", JOptionPane.WARNING_MESSAGE);
         }
         
     }//GEN-LAST:event_btnBuscarSalaActionPerformed
@@ -522,7 +523,7 @@ public class CineFrame extends javax.swing.JFrame {
             flagBusqueda = false;
             loadTableSalas();
         }else{
-            JOptionPane.showMessageDialog(null, "No se encontró el código "+txtNombreCine.getText(), "Atencion", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se encontró el "+txtNombreCine.getText(), "Atencion", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnActualizarSalaActionPerformed
 
@@ -576,6 +577,7 @@ public class CineFrame extends javax.swing.JFrame {
     }
     
     private void loadTableSalas(){
+        loadTableCines();
         EntityManager em;
         EntityManagerFactory emf;
         emf = javax.persistence.Persistence.createEntityManagerFactory("CinePU");
@@ -589,9 +591,9 @@ public class CineFrame extends javax.swing.JFrame {
             dm.removeRow(i);
         }
         _salasList.forEach((sala) -> {
-            dm.addRow( new Object[] { sala.getIdsala(), sala.getNombre(),
-             cineList.stream().filter((Cine item) -> Objects.equals(item.getIdcine(), 
-                        sala.getIdcine().getIdcine())).collect(Collectors.toList()).get(0).getNombre()});
+        dm.addRow( new Object[] { sala.getIdsala(), sala.getNombre(),
+        cineList.stream().filter((Cine item) -> Objects.equals(item.getIdcine(), 
+                    sala.getIdcine().getIdcine())).collect(Collectors.toList()).get(0).getNombre()});
         });  
     }
     
